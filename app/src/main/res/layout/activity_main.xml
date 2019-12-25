@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="mainViewModel"
+            type="com.devarthur.diceroll.MainViewModel" />
 
     </data>
 
@@ -26,6 +29,7 @@
             android:layout_width="wrap_content"
             android:text="@{@string/lets_roll}"
             android:id="@+id/roll_button"
+            android:onClick="@{() -> mainViewModel.rolldice()"
             android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content">
 
