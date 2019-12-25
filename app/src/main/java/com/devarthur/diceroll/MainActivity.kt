@@ -1,39 +1,37 @@
 package com.devarthur.diceroll
 
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.random.Random
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.devarthur.diceroll.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var diceImage: ImageView
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: MainViewModel
+    //TODO create a view model and bind data using data binding inside layout XML
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val rollbutton : Button = findViewById(R.id.roll_button)
-        rollbutton.text = "Lets rolll"
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rollbutton.setOnClickListener {
-           rolldice()
+        viewModel = MainViewModel()
+
+        binding.rollButton.text = getString(R.string.lets_roll)
+        binding.rollButton.setOnClickListener {
+            viewModel.rolldice()
         }
 
-
+        viewModel.currentDiceResource.observe(this, Observer { imageResource ->
+            binding.diceImage.setImageResource(imageResource)
+        })
     }
 
-    private fun rolldice() {
-        val diceImage: ImageView = findViewById(R.id.dice_image)
-        val randomInt = Random.nextInt(6) + 1
 
-        val drawableResource = when (randomInt) {
-            1 -> R.drawable.dice_1
-            2 -> R.drawable.dice_2
-            3 -> R.drawable.dice_3
-            4 -> R.drawable.dice_4
-            5 -> R.drawable.dice_5
-            else -> R.drawable.dice_6
-        }
-
-        diceImage.setImageResource(drawableResource)
-    }
 }
